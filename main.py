@@ -1,5 +1,6 @@
 from notifier.discord import notify
 from scrapers import workday, ashby, greenhouse
+
 # import importlib
 import sqlite3
 import time

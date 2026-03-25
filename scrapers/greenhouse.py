@@ -21,7 +21,9 @@ def scrape(company: str, link: str) -> list:
 
             jobs_locator = page.locator(".job-post")
 
-            titles = [el.locator("p.body--medium").inner_text() for el in jobs_locator.all()]
+            titles = [
+                el.locator("p.body--medium").inner_text() for el in jobs_locator.all()
+            ]
             locations = [
                 el.locator("p.body--metadata").inner_text() for el in jobs_locator.all()
             ]
