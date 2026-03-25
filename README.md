@@ -7,3 +7,5 @@ This is the prompt to get the companies into the database:
 '''
 Using the attached JOBS.md, give me a single SQLite INSERT statement that inserts all companies into a table called companies with columns company, link, and type (which is the job board: workday, ashby, greenhouse, or custom).
 '''
+
+- Talk about how this is currently fully tailored to yourself, but once you figure everything out (basically when it works for you the way you want it to) then you will modify the code to make it so other people can use it easier.
