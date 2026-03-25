@@ -1,0 +1,1 @@
+I am using JOBS.md to keep a list of all jobs in JOBS.db, but this JOBS_TEMP.md file will be for when I want to add jobs to the database but haven't done so yet. Once they get added from this list, the jobs here will move to the other markdown file.
