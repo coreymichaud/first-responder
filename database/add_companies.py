@@ -16,8 +16,6 @@ TYPE = ""
 #     (COMPANY, LINK, TYPE),
 # )
 
-cursor.executescript(
-    """"""
-)
+cursor.executescript("""""")
 
 con.close()
