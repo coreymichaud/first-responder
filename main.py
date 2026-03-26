@@ -4,11 +4,23 @@ from scrapers import workday, ashby, greenhouse
 # import importlib
 import sqlite3
 import time
+import datetime
 
 start_time = time.perf_counter()
 
 con = sqlite3.connect("database/JOBS.db")
 cursor = con.cursor()
+
+seen_available = True
+
+try:
+    cursor.execute("DELETE FROM seen WHERE DATE(\"date\") < DATE('now', '-2 months')")
+    cursor.execute("SELECT company, title, link FROM seen")
+    seen_rows = cursor.fetchall()
+    seen_keys = {(company, title, link) for company, title, link in seen_rows}
+except sqlite3.OperationalError:
+    seen_available = False
+    seen_keys = set()
 
 cursor.execute("SELECT * FROM companies")
 
@@ -16,16 +28,7 @@ rows = cursor.fetchall()
 column_names = [description[0] for description in cursor.description]
 
 companies = [dict(zip(column_names, row)) for row in rows]
-#companies = companies[0:1]
-
-# cursor.execute("SELECT * FROM seen")
-
-# rows = cursor.fetchall()
-# column_names = [description[0] for description in cursor.description]
-
-# seen = [dict(zip(column_names, row)) for row in rows]
-
-con.close()
+# companies = companies[0:1]
 
 print("[START] Beginning job scraper.")
 
@@ -46,16 +49,27 @@ for company in companies:
 
     found_jobs = found_jobs + temp
 
-# for i in len(found_jobs):
-#     if found_jobs[i] in seen:
-#         found_jobs.remove(i)
-#     else:
-#         seen.append(found_jobs[i])
+today = datetime.date.today().isoformat()
+if not seen_available:
+    new_jobs = found_jobs
+else:
+    new_jobs = []
+    for job in found_jobs:
+        key = (job["company"], job["title"], job["link"])
+        if key in seen_keys:
+            continue
 
+        new_jobs.append(job)
+        cursor.execute(
+            "INSERT INTO seen (company, title, link, date) VALUES (?, ?, ?, ?)",
+            (job["company"], job["title"], job["link"], today),
+        )
+        seen_keys.add(key)
 
-# Figure out how to add the new jobs to the seen table in the database. I don't think the above code is even correct...
+con.commit()
+con.close()
 
-notify(found_jobs)
+notify(new_jobs)
 
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
