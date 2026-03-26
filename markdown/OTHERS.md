@@ -1,1 +1,0 @@
-talk about other job boards to use but not scrape because it's too hard like linkedin, simplify, wellfound, and levels.fyi and builtin
