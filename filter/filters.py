@@ -24,7 +24,6 @@ allow = [
     "bi",
     "business intelligence",
     "reporting",
-    "engineer",
 ]
 
 deny = [
