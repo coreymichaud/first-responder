@@ -16,14 +16,16 @@ rows = cursor.fetchall()
 column_names = [description[0] for description in cursor.description]
 
 companies = [dict(zip(column_names, row)) for row in rows]
-# companies = companies[0:1]
+#companies = companies[0:1]
 
-cursor.execute("SELECT * FROM seen")
+# cursor.execute("SELECT * FROM seen")
 
-rows = cursor.fetchall()
-column_names = [description[0] for description in cursor.description]
+# rows = cursor.fetchall()
+# column_names = [description[0] for description in cursor.description]
 
-seen = [dict(zip(column_names, row)) for row in rows]
+# seen = [dict(zip(column_names, row)) for row in rows]
+
+con.close()
 
 print("[START] Beginning job scraper.")
 
@@ -44,16 +46,14 @@ for company in companies:
 
     found_jobs = found_jobs + temp
 
-for i in len(found_jobs):
-    if found_jobs[i] in seen:
-        found_jobs.remove(i)
-    else:
-        seen.append(found_jobs[i])
+# for i in len(found_jobs):
+#     if found_jobs[i] in seen:
+#         found_jobs.remove(i)
+#     else:
+#         seen.append(found_jobs[i])
 
 
 # Figure out how to add the new jobs to the seen table in the database. I don't think the above code is even correct...
-
-con.close()
 
 notify(found_jobs)
 
