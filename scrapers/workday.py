@@ -16,8 +16,13 @@ def scrape(company: str, link: str) -> list:
 
         try:
             page = context.new_page()
-            page.goto(link, wait_until="domcontentloaded", timeout=6000)
-            page.wait_for_selector('a[data-automation-id="jobTitle"]', timeout=6000)
+            page.goto(link, wait_until="domcontentloaded")
+
+            try:
+                page.wait_for_selector('a[data-automation-id="jobTitle"]', timeout=4000)
+            except:
+                page.reload(wait_until="domcontentloaded")
+                page.wait_for_selector('a[data-automation-id="jobTitle"]', timeout=4000)
 
             jobs_locator = page.locator('a[data-automation-id="jobTitle"]')
 
