@@ -1,0 +1,1 @@
+Talk about other job boards to use but not scrape like linkedin, levels, builtin, simplify, wellfound, etc.
