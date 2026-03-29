@@ -5,7 +5,7 @@ from scrapers import workday, ashby, greenhouse
 from database import create_db
 
 # import importlib
-import sqlite3
+import psycopg
 import time
 import datetime
 
@@ -17,17 +17,17 @@ start_time = time.perf_counter()
 if not os.path.exists("database/JOBS.db"):
     create_db()
 
-con = sqlite3.connect(DATABASE_URL)
+con = psycopg.connect(DATABASE_URL)
 cursor = con.cursor()
 
 seen_available = True
 
 try:
-    cursor.execute("DELETE FROM seen WHERE DATE(\"date\") < DATE('now', '-2 months')")
+    cursor.execute('DELETE FROM seen WHERE "date"::date < CURRENT_DATE - INTERVAL \'2 months\'')
     cursor.execute("SELECT company, title, link FROM seen")
     seen_rows = cursor.fetchall()
     seen_keys = {(company, title, link) for company, title, link in seen_rows}
-except sqlite3.OperationalError:
+except psycopg.OperationalError:
     seen_available = False
     seen_keys = set()
 
@@ -72,7 +72,7 @@ else:
 
         new_jobs.append(job)
         cursor.execute(
-            "INSERT INTO seen (company, title, link, date) VALUES (?, ?, ?, ?)",
+            'INSERT INTO seen (company, title, link, date) VALUES (%s, %s, %s, %s)',
             (job["company"], job["title"], job["link"], today),
         )
         seen_keys.add(key)
