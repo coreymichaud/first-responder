@@ -46,7 +46,9 @@ for company in companies:
         temp = ashby.scrape(company["company"], company["link"])
     elif company["type"] == "greenhouse":
         temp = greenhouse.scrape(company["company"], company["link"])
-    else:
+    elif company["type"] == "hackernews":
+        continue
+    elif company["type"] == "custom":
         continue
         # module_name = company["company"].lower().replace(" ", "_")
         # module = importlib.import_module(f"scrapers.custom.{module_name}")
