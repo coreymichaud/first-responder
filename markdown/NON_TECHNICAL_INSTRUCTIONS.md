@@ -1,0 +1,1 @@
+Later rewrite the README to be a lot more concise, and this is where you can have a much longer explanation with the step by step guide so that non technical people can understand how to set this up.
