@@ -1,7 +1,7 @@
 [project]
 name = "job-scraper"
 version = "0.1.0"
-description = "Job scraper that finds job postings and sends them to Discord."
+description = "Job scraper that finds and sends matched listings to Discord."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
