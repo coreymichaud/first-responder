@@ -6,15 +6,7 @@ First Responder is a lightweight job scraper that monitors company career pages 
 
 ---
 
-## ✨ Why This Exists
-
-Job searching is noisy and slow. First Responder flips that:
-
-* ⚡ Scrapes jobs automatically (every 2 hours via GitHub Actions)
-* 🎯 Filters roles based on your preferences
-* 🔔 Sends results instantly to Discord
-
-## 🚀 Features
+## Features
 
 * Scrapes jobs from:
 
@@ -28,14 +20,14 @@ Job searching is noisy and slow. First Responder flips that:
 * Fully automated with GitHub Actions
 * Discord webhook integration
 
-## 🧱 Tech Stack
+## Tech Stack
 
 * Python
 * Playwright
 * PostgreSQL (Neon)
 * GitHub Actions (CI/CD)
 
-## ⚡ Quick Start
+## Quick Start
 
 If you're non-technical or get confused at any point, check out the [non-technical guide](markdown/NON_TECHNICAL_INSTRUCTIONS.md)!
 
@@ -94,7 +86,7 @@ uv run main.py
 
 ---
 
-## 🎯 Filtering Jobs
+## Filtering Jobs
 
 Edit:
 
@@ -107,7 +99,7 @@ filter/filters.py
 
 > Tip: include variations like `junior`, `jr`, `jr.`
 
-## 🏢 Adding Companies
+## Adding Companies
 
 Use `markdown/COMPANIES.md` to track company career pages.
 
@@ -119,7 +111,7 @@ Quick ways to find them:
 
 You can bulk insert using a generated SQL statement from this file, or add them one by one in the Neon console.
 
-## 🔄 Automation
+## Automation
 
 GitHub Actions runs the scraper every 2 hours.
 
@@ -132,10 +124,6 @@ Make sure to set secrets:
 
 ## 🗺️ Future Plans
 
-* 🤖 Smarter filtering using an LLM (job description matching)
-* 📱 SMS notifications (Twilio)
-* 🏠 Local-first mode (local LLM + database)
-
-## ⭐ If You Like This Project
-
-Give it a star and consider contributing!
+* Smarter filtering using an LLM (job description matching)
+* SMS notifications (Twilio)
+* Local-first mode (local LLM + database)
