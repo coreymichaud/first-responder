@@ -14,8 +14,6 @@ Job searching is noisy and slow. First Responder flips that:
 * 🎯 Filters roles based on your preferences
 * 🔔 Sends results instantly to Discord
 
----
-
 ## 🚀 Features
 
 * Scrapes jobs from:
@@ -30,16 +28,12 @@ Job searching is noisy and slow. First Responder flips that:
 * Fully automated with GitHub Actions
 * Discord webhook integration
 
----
-
 ## 🧱 Tech Stack
 
 * Python
 * Playwright
 * PostgreSQL (Neon)
 * GitHub Actions (CI/CD)
-
----
 
 ## ⚡ Quick Start
 
@@ -63,8 +57,6 @@ DISCORD_WEBHOOK=your_webhook_url
 DATABASE_URL=your_database_url
 ```
 
----
-
 ### 3. Setup Database (Neon)
 
 Run the following SQL:
@@ -86,15 +78,11 @@ CREATE TABLE seen (
 );
 ```
 
----
-
 ### 4. Setup Discord Webhook
 
 * Create a channel (e.g. `first-responder`)
 * Create a webhook
 * Paste it into `.env` and GitHub Secrets
-
----
 
 ### 5. Run Locally
 
@@ -119,8 +107,6 @@ filter/filters.py
 
 > Tip: include variations like `junior`, `jr`, `jr.`
 
----
-
 ## 🏢 Adding Companies
 
 Use `markdown/COMPANIES.md` to track company career pages.
@@ -132,8 +118,6 @@ Quick ways to find them:
 * Greenhouse → `site:job-boards.greenhouse.io`
 
 You can bulk insert using a generated SQL statement from this file, or add them one by one in the Neon console.
-
----
 
 ## 🔄 Automation
 
@@ -151,8 +135,6 @@ Make sure to set secrets:
 * 🤖 Smarter filtering using an LLM (job description matching)
 * 📱 SMS notifications (Twilio)
 * 🏠 Local-first mode (local LLM + database)
-
----
 
 ## ⭐ If You Like This Project
 
