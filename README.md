@@ -1,10 +1,8 @@
-# 🚑 First Responder
+# First Responder 🚑
 
 Get job listings **fast** before everyone else does.
 
 First Responder is a lightweight job scraper that monitors company career pages and sends **filtered, relevant job postings** directly to your Discord server.
-
----
 
 ## Features
 
@@ -26,6 +24,8 @@ First Responder is a lightweight job scraper that monitors company career pages 
 * Playwright
 * PostgreSQL (Neon)
 * GitHub Actions (CI/CD)
+
+---
 
 ## Quick Start
 
@@ -122,7 +122,7 @@ Make sure to set secrets:
 
 ---
 
-## 🗺️ Future Plans
+## ⭐️ Future Plans
 
 * Smarter filtering using an LLM (job description matching)
 * SMS notifications (Twilio)
