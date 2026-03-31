@@ -14,5 +14,4 @@ wheels/
 .env
 
 # Markdown files
-markdown/COMPANIES_TEMP.md
 markdown/COMPANIES.md
