@@ -21,7 +21,7 @@ First Responder is a lightweight job scraper that monitors company career pages 
 ## Tech Stack
 
 * Python
-* Playwright
+* Playwright (Web scraping)
 * PostgreSQL (Neon)
 * GitHub Actions (CI/CD)
 
@@ -29,27 +29,18 @@ First Responder is a lightweight job scraper that monitors company career pages 
 
 ## Quick Start
 
-If you're non-technical or get confused at any point, check out the [non-technical guide](markdown/NON_TECHNICAL_INSTRUCTIONS.md)!
-
 ### 1. Fork & Clone
 
 Fork this repo, then clone your fork.
 
-### 2. Setup Environment
+### 2. Rename Files
 
 ```bash
 git mv .env.example .env
 git mv markdown/COMPANIES_TEMPLATE.md markdown/COMPANIES.md
 ```
 
-Fill in `.env`:
-
-```env
-DISCORD_WEBHOOK=your_webhook_url
-DATABASE_URL=your_database_url
-```
-
-### 3. Setup Database (Neon)
+### 3. Setup Database ([Neon](https://neon.com))
 
 Run the following SQL:
 
@@ -74,9 +65,24 @@ CREATE TABLE seen (
 
 * Create a channel (e.g. `first-responder`)
 * Create a webhook
-* Paste it into `.env` and GitHub Secrets
 
-### 5. Run Locally
+### 5. Add Environment Variables
+
+Add to the `.env` file:
+
+```env
+DISCORD_WEBHOOK = ""
+DATABASE_URL = ""
+```
+
+Do the same for GitHub Action Secrets:
+
+```env
+DISCORD_WEBHOOK
+DATABASE_URL
+```
+
+### 6. Run Locally
 
 ```bash
 uv sync
@@ -94,8 +100,8 @@ Edit:
 filter/filters.py
 ```
 
-* `allow`: jobs you want
-* `deny`: jobs you don’t want
+* `allow`: job keywords you want
+* `deny`: job keywords you don’t want
 
 > Tip: include variations like `junior`, `jr`, `jr.`
 
@@ -109,16 +115,9 @@ Quick ways to find them:
 * Ashby → `site:jobs.ashbyhq.com`
 * Greenhouse → `site:job-boards.greenhouse.io`
 
-You can bulk insert using a generated SQL statement from this file, or add them one by one in the Neon console.
+You can bulk insert using a generated SQL statement, or add them one by one in the Neon console.
 
-## Automation
-
-GitHub Actions runs the scraper every 2 hours.
-
-Make sure to set secrets:
-
-* `DISCORD_WEBHOOK`
-* `DATABASE_URL`
+> Tip: I suggest using this file to make a big list first, bulk insert into the Neon database, then use it to keep a local track of companies and add new ones directly in the Neon console.
 
 ---
 
