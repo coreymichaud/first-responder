@@ -82,7 +82,7 @@ DISCORD_WEBHOOK
 DATABASE_URL
 ```
 
-### 6. Run Locally
+### 6. Run Locally To Test
 
 ```bash
 uv sync
