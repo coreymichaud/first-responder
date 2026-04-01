@@ -14,10 +14,8 @@ DISCORD_WEBHOOK = os.getenv("DISCORD_WEBHOOK")
 
 def notify(job_list: list) -> None:
 
-    print(f"[DEBUG] Notification function received {len(job_list)} jobs.")
-
     if len(job_list) == 0:
-        print("[SKIP] No new jobs found.")
+        print("[SKIP] No new jobs found - skipping notification.")
     else:
         for job in job_list:
             requests.post(
