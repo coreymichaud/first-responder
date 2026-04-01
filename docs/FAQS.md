@@ -8,3 +8,6 @@
 
 ## Why Discord?
 - Talk about it.
+
+# Why so much configuring?
+- Talk about that in the future you want to make it so the user basically doesn't have to touch the code at all (unless they want to).
