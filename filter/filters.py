@@ -2,6 +2,10 @@
 # This script defines the filters that are applied to the scraper.
 # =================================================================
 
+# The `allow` list contains terms that you want to include in any job titles found.
+# The `deny` list contains terms that you want to exclude from any job titles found.
+# Try all combinations of terms to be safe, e.g. "jr" and "jr." for "junior", "sr" and "sr." for "senior", etc.
+
 import re
 
 allow = [
