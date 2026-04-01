@@ -2,37 +2,35 @@
 # This script is for the custom logic to scrape jobs on Greenhouse.
 # =================================================================
 
-from playwright.sync_api import sync_playwright, TimeoutError
+from playwright.async_api import async_playwright, TimeoutError
 from filter.filters import filter_title
 
 
-def scrape(company: str, link: str) -> list:
+async def scrape(company: str, link: str) -> list:
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context()
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        context = await browser.new_context()
 
         print(f"[INFO] Scraping {company}.")
 
         try:
-            page = context.new_page()
-            page.goto(link, wait_until="domcontentloaded")
+            page = await context.new_page()
+            await page.goto(link, wait_until="domcontentloaded")
 
             try:
-                page.wait_for_selector(".job-post", timeout=4000)
+                await page.wait_for_selector(".job-post", timeout=4000)
             except:
-                page.reload(wait_until="domcontentloaded")
-                page.wait_for_selector(".job-post", timeout=4000)
+                await page.reload(wait_until="domcontentloaded")
+                await page.wait_for_selector(".job-post", timeout=4000)
 
             jobs_locator = page.locator(".job-post")
 
-            titles = [
-                el.locator("p.body--medium").inner_text() for el in jobs_locator.all()
-            ]
-            locations = [
-                el.locator("p.body--metadata").inner_text() for el in jobs_locator.all()
-            ]
-            links = [el.locator("a").get_attribute("href") for el in jobs_locator.all()]
+            titles = await jobs_locator.locator("p.body--medium").all_inner_texts()
+            locations = await jobs_locator.locator("p.body--metadata").all_inner_texts()
+            links = await jobs_locator.evaluate_all(
+                "elements => elements.map(el => { const a = el.querySelector('a'); return a ? a.href : null; })"
+            )
 
             jobs = [
                 {"title": t, "company": company, "location": loc, "link": l}
@@ -45,14 +43,7 @@ def scrape(company: str, link: str) -> list:
             jobs = []
 
         finally:
-            context.close()
-            browser.close()
+            await context.close()
+            await browser.close()
 
     return jobs
-
-
-# testing = scrape(
-#     "GitLab",
-#     "https://job-boards.greenhouse.io/gitlab?departments%5B%5D=4115238002&departments%5B%5D=4115239002&departments%5B%5D=4118835002&departments%5B%5D=4069215002&departments%5B%5D=4115236002",
-# )
-# print(testing)

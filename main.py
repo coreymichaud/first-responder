@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 from notifier.discord import notify
 from scrapers import workday, ashby, greenhouse
+import asyncio
+import inspect
 
 # import importlib
 import psycopg
@@ -39,49 +41,92 @@ companies = [dict(zip(column_names, row)) for row in rows]
 
 print("[START] Beginning job scraper.")
 
-found_jobs = []
 
-for company in companies:
-    if company["type"] == "workday":
-        temp = workday.scrape(company["company"], company["link"])
-    elif company["type"] == "ashby":
-        temp = ashby.scrape(company["company"], company["link"])
-    elif company["type"] == "greenhouse":
-        temp = greenhouse.scrape(company["company"], company["link"])
-    elif company["type"] == "hackernews":
-        continue
-    elif company["type"] == "custom":
-        continue
-        # module_name = company["company"].lower().replace(" ", "_")
-        # module = importlib.import_module(f"scrapers.custom.{module_name}")
-        # temp = module.scrape(company["company"], company["link"])
+async def _run_scraper(func, company_name, link):
+    """
+    Call func(company_name, link).
+    If func is async, await it. Otherwise run it in a thread.
+    """
+    if inspect.iscoroutinefunction(func):
+        return await func(company_name, link)
 
-    found_jobs = found_jobs + temp
+    return await asyncio.to_thread(func, company_name, link)
 
-today = datetime.date.today().isoformat()
-if not seen_available:
-    new_jobs = found_jobs
-else:
-    new_jobs = []
-    for job in found_jobs:
-        key = (job["company"], job["title"], job["link"])
-        if key in seen_keys:
+
+async def _gather_all_jobs(companies):
+    tasks = []
+    for company in companies:
+        typ = company["type"]
+        if typ == "workday":
+            tasks.append(
+                asyncio.create_task(
+                    _run_scraper(workday.scrape, company["company"], company["link"])
+                )
+            )
+        elif typ == "ashby":
+            tasks.append(
+                asyncio.create_task(
+                    _run_scraper(ashby.scrape, company["company"], company["link"])
+                )
+            )
+        elif typ == "greenhouse":
+            tasks.append(
+                asyncio.create_task(
+                    _run_scraper(greenhouse.scrape, company["company"], company["link"])
+                )
+            )
+        elif typ in ("hackernews", "custom"):
+            # skip or implement custom handling
             continue
 
-        new_jobs.append(job)
-        cursor.execute(
-            "INSERT INTO seen (company, title, link, date) VALUES (%s, %s, %s, %s)",
-            (job["company"], job["title"], job["link"], today),
-        )
-        seen_keys.add(key)
+    if not tasks:
+        return []
 
-con.commit()
-con.close()
+    results = await asyncio.gather(*tasks, return_exceptions=True)
 
-notify(new_jobs)
+    found = []
+    for res in results:
+        if isinstance(res, Exception):
+            print(f"[ERROR] Scraper failed: {res}")
+            continue
+        if isinstance(res, list):
+            found.extend(res)
+        else:
+            print(f"[WARN] Scraper returned unexpected type: {type(res)}")
+    return found
 
-end_time = time.perf_counter()
-elapsed_time = end_time - start_time
 
-print(f"[TIME] Ran in {elapsed_time:.2f} seconds.")
-print("[DONE] Ending job scraper.")
+async def main_async():
+    found_jobs = await _gather_all_jobs(companies)
+
+    today = datetime.date.today().isoformat()
+    if not seen_available:
+        new_jobs = found_jobs
+    else:
+        new_jobs = []
+        for job in found_jobs:
+            key = (job["company"], job["title"], job["link"])
+            if key in seen_keys:
+                continue
+
+            new_jobs.append(job)
+            cursor.execute(
+                "INSERT INTO seen (company, title, link, date) VALUES (%s, %s, %s, %s)",
+                (job["company"], job["title"], job["link"], today),
+            )
+            seen_keys.add(key)
+
+    con.commit()
+    con.close()
+
+    notify(new_jobs)
+
+    end_time = time.perf_counter()
+    elapsed_time = end_time - start_time
+
+    print(f"[TIME] Ran in {elapsed_time:.2f} seconds.")
+    print("[DONE] Ending job scraper.")
+
+
+if __name__ == "__main__":
+    asyncio.run(main_async())

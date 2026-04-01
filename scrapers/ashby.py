@@ -2,48 +2,43 @@
 # This script is for the custom logic to scrape jobs on Ashby.
 # =============================================================
 
-from playwright.sync_api import sync_playwright, TimeoutError
+from playwright.async_api import async_playwright, TimeoutError
 from filter.filters import filter_title
 
 
-def scrape(company: str, link: str) -> list:
+async def scrape(company: str, link: str) -> list:
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context()
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        context = await browser.new_context()
 
         print(f"[INFO] Scraping {company}.")
 
         try:
-            page = context.new_page()
-            page.goto(link, wait_until="domcontentloaded")
+            page = await context.new_page()
+            await page.goto(link, wait_until="domcontentloaded")
 
             try:
-                page.wait_for_selector(
+                await page.wait_for_selector(
                     ".ashby-job-posting-brief-list > a", timeout=4000
                 )
             except:
-                page.reload(wait_until="domcontentloaded")
-                page.wait_for_selector(
+                await page.reload(wait_until="domcontentloaded")
+                await page.wait_for_selector(
                     ".ashby-job-posting-brief-list > a", timeout=4000
                 )
 
             jobs_locator = page.locator(".ashby-job-posting-brief-list > a")
 
-            titles = [
-                el.locator(".ashby-job-posting-brief-title").inner_text()
-                for el in jobs_locator.all()
-            ]
-            locations = [
-                el.locator(
-                    ".ashby-job-posting-brief-details p:first-of-type"
-                ).inner_text()
-                for el in jobs_locator.all()
-            ]
-            links = [
-                "https://jobs.ashbyhq.com" + el.get_attribute("href")
-                for el in jobs_locator.all()
-            ]
+            titles = await jobs_locator.locator(
+                ".ashby-job-posting-brief-title"
+            ).all_inner_texts()
+            locations = await jobs_locator.locator(
+                ".ashby-job-posting-brief-details p:first-of-type"
+            ).all_inner_texts()
+            links = await jobs_locator.evaluate_all(
+                "elements => elements.map(el => 'https://jobs.ashbyhq.com' + (el.getAttribute('href') || ''))"
+            )
 
             jobs = [
                 {"title": t, "company": company, "location": loc, "link": l}
@@ -56,14 +51,7 @@ def scrape(company: str, link: str) -> list:
             jobs = []
 
         finally:
-            context.close()
-            browser.close()
+            await context.close()
+            await browser.close()
 
     return jobs
-
-
-# testing = scrape(
-#     "Clay",
-#     "https://jobs.ashbyhq.com/claylabs?employmentType=FullTime&locationId=f62b23aa-31f0-4374-b447-18c02444108f",
-# )
-# print(testing)
