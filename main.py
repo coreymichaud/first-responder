@@ -52,7 +52,7 @@ async def _run_scraper(func, company_name, link):
     return await asyncio.to_thread(func, company_name, link)
 
 
-SEMAPHORE = asyncio.Semaphore(5)
+SEMAPHORE = asyncio.Semaphore(4)
 
 async def _bounded(coro):
     async with SEMAPHORE:
