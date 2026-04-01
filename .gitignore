@@ -14,4 +14,4 @@ wheels/
 .env
 
 # Markdown files
-markdown/COMPANIES.md
+docs/COMPANIES.md
