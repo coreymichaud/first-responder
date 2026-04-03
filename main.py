@@ -48,7 +48,6 @@ async def gather_all_jobs(companies):
                     print(f"[WARN] Unexpected scraper return type: {type(res)}")
             return found
         finally:
-            # Always attempt to close context and browser
             try:
                 await context.close()
             except Exception:
