@@ -29,7 +29,6 @@ def notify(job_list: list) -> None:
             )
             time.sleep(0.4)  # To avoid hitting rate limits
 
-
         num_jobs = len(job_list)
 
         if num_jobs == 1:
