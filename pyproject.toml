@@ -1,7 +1,7 @@
 [project]
-name = "job-scraper"
+name = "first-responder"
 version = "0.1.0"
-description = "Job scraper that finds and sends matched listings to Discord."
+description = "First Responder is a scraper that finds and sends matched job listings to Discord."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
