@@ -13,7 +13,7 @@ DISCORD_WEBHOOK = os.getenv("DISCORD_WEBHOOK")
 def notify(job_list: list) -> None:
 
     if len(job_list) == 0:
-        print("[SKIP] No new jobs found - skipping notification.")
+        print("[NOTIFICATION] No new jobs found.")
     else:
         for job in job_list:
             requests.post(
@@ -31,7 +31,7 @@ def notify(job_list: list) -> None:
 
 
         num_jobs = len(job_list)
-        
+
         if num_jobs == 1:
             print("[NOTIFICATION] Sent 1 new job to Discord.")
         else:
