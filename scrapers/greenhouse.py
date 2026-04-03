@@ -20,14 +20,13 @@ async def scrape(company: str, link: str, context) -> list:
         jobs_locator = page.locator(".job-post")
 
         titles = await jobs_locator.locator("p.body--medium").all_inner_texts()
-        locations = await jobs_locator.locator("p.body--metadata").all_inner_texts()
         links = await jobs_locator.evaluate_all(
             "elements => elements.map(el => { const a = el.querySelector('a'); return a ? a.href : null; })"
         )
 
         jobs = [
-            {"title": t, "company": company, "location": loc, "link": l}
-            for t, loc, l in zip(titles, locations, links)
+            {"title": t, "company": company, "link": l}
+            for t, l in zip(titles, links)
             if filter_title(t)
         ]
 

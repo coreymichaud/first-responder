@@ -26,16 +26,13 @@ async def scrape(company: str, link: str, context) -> list:
         titles = await jobs_locator.locator(
             ".ashby-job-posting-brief-title"
         ).all_inner_texts()
-        locations = await jobs_locator.locator(
-            ".ashby-job-posting-brief-details p:first-of-type"
-        ).all_inner_texts()
         links = await jobs_locator.evaluate_all(
             "elements => elements.map(el => 'https://jobs.ashbyhq.com' + (el.getAttribute('href') || ''))"
         )
 
         jobs = [
-            {"title": t, "company": company, "location": loc, "link": l}
-            for t, loc, l in zip(titles, locations, links)
+            {"title": t, "company": company, "link": l}
+            for t, l in zip(titles, links)
             if filter_title(t)
         ]
 
