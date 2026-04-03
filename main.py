@@ -5,7 +5,7 @@ import time
 import psycopg
 from dotenv import load_dotenv
 from scrapers.scraper import scrape
-from notifier.discord import notify
+from notifications.discord import notify
 from playwright.async_api import async_playwright
 
 load_dotenv()
