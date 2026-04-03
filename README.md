@@ -64,9 +64,9 @@ CREATE TABLE seen (
 
 CREATE TABLE elements (
     platform TEXT NOT NULL,
-    jobs_element TEXT NOT NULL,
-    titles_element TEXT NOT NULL,
-    links_element TEXT NOT NULL,
+    jobs_element TEXT,
+    titles_element TEXT,
+    links_element TEXT,
     UNIQUE(platform, jobs_element, titles_element, links_element)
 );
 ```
