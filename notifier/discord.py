@@ -1,6 +1,4 @@
-# =====================================================================================
-# This script sets up the Discord webhook to send job postings to the Discord channel.
-# =====================================================================================
+# Sets up webhook to send notifications to Discord
 
 import os
 import time

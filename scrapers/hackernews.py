@@ -1,6 +1,4 @@
-# # ===================================================================================
-# # This script is for the custom logic to scrape jobs on Hacker New's "Who's Hiring?".
-# # ===================================================================================
+# Hacker News
 
 # from playwright.async_api import async_playwright, TimeoutError
 

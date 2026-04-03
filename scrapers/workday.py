@@ -1,6 +1,4 @@
-# ===============================================================
-# This script is for the custom logic to scrape jobs on Workday.
-# ===============================================================
+# Workday
 
 TimeoutError
 from filter.filters import filter_title

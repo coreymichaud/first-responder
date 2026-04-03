@@ -1,6 +1,4 @@
-# =================================================================
-# This script is for the custom logic to scrape jobs on Greenhouse.
-# =================================================================
+# Greenhouse
 
 from playwright.async_api import async_playwright, TimeoutError
 from filter.filters import filter_title
