@@ -28,6 +28,7 @@ async def gather_all_jobs(companies):
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context()
+
         try:
             tasks = [asyncio.create_task(run_scraper(c, context)) for c in companies]
 
@@ -35,6 +36,7 @@ async def gather_all_jobs(companies):
                 return []
 
             found = []
+
             for res in await asyncio.gather(*tasks, return_exceptions=True):
                 if isinstance(res, Exception):
                     print(f"[ERROR] Scraper failed: {res}")
@@ -43,6 +45,7 @@ async def gather_all_jobs(companies):
                 else:
                     print(f"[WARN] Unexpected scraper return type: {type(res)}")
             return found
+
         finally:
             try:
                 await context.close()
@@ -79,6 +82,7 @@ async def main():
         seen_keys = {(r["company"], r["title"], r["link"]) for r in cursor.fetchall()}
         cursor.execute(get_data_query)
         companies = cursor.fetchall()
+
     except Exception as e:
         print(f"[ERROR] Failed to connect to database: {e}")
         exit(1)
