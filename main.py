@@ -61,22 +61,25 @@ async def gather_all_jobs(companies):
 async def main():
     DATABASE_URL = os.getenv("DATABASE_URL")
 
-    try:
-        con = psycopg.connect(DATABASE_URL, row_factory=psycopg.rows.dict_row)
-        cursor = con.cursor()
-        cursor.execute(
-            "DELETE FROM seen WHERE \"date\"::date < CURRENT_DATE - INTERVAL '2 months'"
-        )
-        cursor.execute("SELECT company, title, link FROM seen")
-        seen_keys = {(r["company"], r["title"], r["link"]) for r in cursor.fetchall()}
-        cursor.execute("""
+    # Queries
+    delete_seen_from_date_query = "DELETE FROM seen WHERE \"date\"::date < CURRENT_DATE - INTERVAL '2 months'"
+    seen_query = "SELECT company, title, link FROM seen"
+    get_data_query = """
             SELECT c.company, c.link,
                    e.jobs_element AS jobs_el,
                    e.titles_element AS titles_el,
                    e.links_element AS links_el
             FROM companies c
             JOIN elements e ON e.platform = c.platform
-        """)
+        """
+    
+    try:
+        con = psycopg.connect(DATABASE_URL, row_factory=psycopg.rows.dict_row)
+        cursor = con.cursor()
+        cursor.execute(delete_seen_from_date_query)
+        cursor.execute(seen_query)
+        seen_keys = {(r["company"], r["title"], r["link"]) for r in cursor.fetchall()}
+        cursor.execute(get_data_query)
         companies = cursor.fetchall()
     except Exception as e:
         print(f"[ERROR] Failed to connect to database: {e}")
