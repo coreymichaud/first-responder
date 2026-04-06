@@ -9,10 +9,9 @@ from notifications.discord import notify
 from playwright.async_api import async_playwright
 
 load_dotenv()
-
+SEMAPHORE = asyncio.Semaphore(4)
 
 async def run_scraper(company, context):
-    SEMAPHORE = asyncio.Semaphore(4)
     async with SEMAPHORE:
         return await scrape(
             company["company"],
