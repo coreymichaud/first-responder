@@ -1,11 +1,16 @@
 # General scraper
 
-from playwright.async_api import TimeoutError
+from playwright.async_api import BrowserContext, TimeoutError
 from filter.filters import filter_title
 
 
 async def scrape(
-    company: str, link: str, jobs_el: str, titles_el: str, links_el: str, context
+    company: str, 
+    link: str, 
+    jobs_el: str, 
+    titles_el: str, 
+    links_el: str, 
+    context: BrowserContext
 ) -> list:
 
     print(f"[INFO] Scraping {company}.")
