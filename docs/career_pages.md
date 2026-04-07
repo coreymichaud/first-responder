@@ -143,3 +143,4 @@ These are companies I have in my database to scrape, but the links below are the
 - [Kayak](https://www.kayak.com/careers)
 - [Root](https://ats.rippling.com/joinroot/jobs)
 - [Curology](https://apply.workable.com/curology/)
+- [Perplexity](https://jobs.ashbyhq.com/perplexity)
