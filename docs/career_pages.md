@@ -1,9 +1,7 @@
 # Career Pages
-
 These are companies I have in my database to scrape, but the links below are the clean career pages without filters applied. This is a good starting point if you don't know what companies to add or think it might be a lot of manual work to gather them! :)
 
 ## Companies
-
 - [Capital One](https://capitalone.wd12.myworkdayjobs.com/Capital_One)
 - [Geico](https://geico.wd1.myworkdayjobs.com/External)
 - [Wells Fargo](https://wd1.myworkdaysite.com/recruiting/wf/WellsFargoJobs)
