@@ -145,3 +145,5 @@ These are companies I have in my database to scrape, but the links below are the
 - [Curology](https://apply.workable.com/curology/)
 - [Perplexity](https://jobs.ashbyhq.com/perplexity)
 - [Supabase](https://jobs.ashbyhq.com/supabase)
+- [Substack](https://jobs.ashbyhq.com/substack)
+- [Readme](https://jobs.ashbyhq.com/readme)
