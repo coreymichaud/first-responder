@@ -38,8 +38,8 @@ Fork this repo, then clone your fork.
 ### 2. Rename Files
 
 ```bash
-cp .env.example .env
-cp docs/COMPANIES_TEMPLATE.md docs/COMPANIES.md
+mv .env.example .env
+mv docs/COMPANIES_TEMPLATE.md docs/COMPANIES.md
 ```
 
 ### 3. Setup Database ([Neon](https://neon.com))
