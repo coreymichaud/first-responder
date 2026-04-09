@@ -84,8 +84,15 @@ CREATE TABLE elements (
 Add the db connection string and webhook URL to the `.env` file:
 
 ```env
-DISCORD_WEBHOOK = "YOUR_URL"
-DATABASE_URL = "YOUR_CONNECTION_STRING"
+DISCORD_WEBHOOK = ""
+DATABASE_URL = ""
+
+# Optional for Twilio SMS reminders
+TWILIO_ACCOUNT_SID=""
+TWILIO_AUTH_TOKEN=""
+TWILIO_API_SECRET=""
+FROM_PHONE_NUMBER=""
+TO_PHONE_NUMBER=""
 ```
 
 Do the same for GitHub Action Secrets:
@@ -93,6 +100,13 @@ Do the same for GitHub Action Secrets:
 ```env
 DISCORD_WEBHOOK
 DATABASE_URL
+
+# Optional
+TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN
+TWILIO_API_SECRET
+FROM_PHONE_NUMBER
+TO_PHONE_NUMBER
 ```
 
 ### 6. Run Locally To Test
@@ -137,6 +151,5 @@ You can bulk insert using a generated SQL statement, or add them one by one in t
 ## Future Plans
 
 * Smarter filtering using an LLM (job description matching)
-* SMS notifications (Twilio)
 * Local-first mode (local LLM + database)
 * Better configurability
