@@ -5,12 +5,12 @@ from filter.filters import filter_title
 
 
 async def scrape(
-    company: str, 
-    link: str, 
-    jobs_el: str, 
-    titles_el: str, 
-    links_el: str, 
-    context: BrowserContext
+    company: str,
+    link: str,
+    jobs_el: str,
+    titles_el: str,
+    links_el: str,
+    context: BrowserContext,
 ) -> list:
 
     print(f"[INFO] Scraping {company}.")
