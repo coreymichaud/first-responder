@@ -7,9 +7,15 @@ from dotenv import load_dotenv
 from scrapers.scraper import scrape
 from notifications.discord import notify
 from playwright.async_api import async_playwright
+import yaml
 
 load_dotenv()
-SEMAPHORE = asyncio.Semaphore(4)
+
+with open("config/config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+
+SEMAPHORE = asyncio.Semaphore(config["semaphore"])
+
 
 async def run_scraper(company, context):
     async with SEMAPHORE:
