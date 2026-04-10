@@ -43,6 +43,9 @@ filters:
     - chief
     - officer
     - trainer
+    - postdoc
+    - postdoctoral
+    - AVP
 
 # Max number of concurrent tasks for scraping
 semaphore: 4
