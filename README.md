@@ -1,3 +1,7 @@
+<figure align = "center">
+    <img src = "images/first-responder.jpg" alt = "Illustration of a guy on a laptop, made by Alghozy on Unsplash." height = "200px"/>
+</figure>
+
 # First Responder 🚑
 
 Get job listings **fast** before everyone else does.
