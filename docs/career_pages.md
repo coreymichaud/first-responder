@@ -122,3 +122,4 @@ These are companies I have in my database to scrape, but the links below are the
 - [Samsung](https://sec.wd3.myworkdayjobs.com/Samsung_Careers)
 - [Card](https://card.wd5.myworkdayjobs.com/Search)
 - [Grubhub](https://wonder.wd1.myworkdayjobs.com/en-US/Grubhub_Careers)
+- [Firecrawl](https://jobs.ashbyhq.com/firecrawl)
